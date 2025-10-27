@@ -114,3 +114,7 @@ ENV/
 *.model
 
 !documentation/assets/scribble_example.png
+
+nnUNet_raw/Dataset100_Heart/*/*.nii.gz
+nnUNet_preprocessed/
+nnUNet_results/
