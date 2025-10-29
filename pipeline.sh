@@ -36,7 +36,11 @@ echo "==========================================================================
 # to generate best inference command
 nnUNetv2_find_best_configuration $dataset_id -c $configuration -f $fold_id -tr $trainer
 
-# then go to ./nnUNet_results/Dataset100_Heart/inference_instructions.txt fetch the best inference commands
-# or you can just simply use below two commands (not recommended)
-# nnUNetv2_predict -d $dataset_id -c $configuration -f  $fold_id -tr $trainer -i ./nnUNet_raw/Dataset100_Heart/imagesTs -o ./nnUNet_raw/Dataset100_Heart/predict
-# nnUNetv2_apply_postprocessing -i ./nnUNet_raw/Dataset100_Heart/predict -o ./nnUNet_raw/Dataset100_Heart/predict_pp -pp_pkl_file ./nnUNet_results/Dataset100_Heart/${trainer}__${plan}__${configuration}/crossval_results_folds_${fold_id}/postprocessing.pkl -np 8 -plans_json ./nnUNet_results/Dataset100_Heart/${trainer}__${plan}__${configuration}/crossval_results_folds_${fold_id}/plans.json
+# then go to ./nnUNet_results/Dataset100_Heart/inference_instructions.txt fetch the best inference commands (better)
+# or you can just simply use below two commands
+# "nnUNetv2_predict -d $dataset_id -c $configuration -f  $fold_id -tr $trainer -i ./nnUNet_raw/Dataset100_Heart/imagesTs -o ./nnUNet_raw/Dataset100_Heart/predict"
+# "nnUNetv2_apply_postprocessing -i ./nnUNet_raw/Dataset100_Heart/predict -o ./nnUNet_raw/Dataset100_Heart/predict_pp -pp_pkl_file ./nnUNet_results/Dataset100_Heart/${trainer}__${plan}__${configuration}/crossval_results_folds_${fold_id}/postprocessing.pkl -np 8 -plans_json ./nnUNet_results/Dataset100_Heart/${trainer}__${plan}__${configuration}/crossval_results_folds_${fold_id}/plans.json"
+
+# then use 
+# "python rename_data.py"
+# "zip -r ./predict.zip ./nnUNet_raw/Dataset100_Heart/predict_pp"
