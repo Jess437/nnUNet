@@ -18,7 +18,7 @@ echo "Training started"
 echo "=================================================================================="
 
 # training (note: validation in this step is only partial to save time)
-nnUNetv2_train $dataset_id $configuration $fold_id -tr $trainer
+nnUNetv2_train $dataset_id $configuration $fold_id -tr $trainer -p $plan
 
 # print validation start message
 echo "=================================================================================="
@@ -26,7 +26,7 @@ echo "Validation started"
 echo "=================================================================================="
 
 # complete validation
-nnUNetv2_train $dataset_id $configuration $fold_id -tr $trainer --val --val_best --npz
+nnUNetv2_train $dataset_id $configuration $fold_id -tr $trainer -p $plan --val --val_best --npz
 
 # print best inference command message
 echo "=================================================================================="
@@ -34,7 +34,7 @@ echo "Best inference command generation started"
 echo "=================================================================================="
 
 # to generate best inference command
-nnUNetv2_find_best_configuration $dataset_id -c $configuration -f $fold_id -tr $trainer
+nnUNetv2_find_best_configuration $dataset_id -c $configuration -f $fold_id -tr $trainer -p $plan
 
 # then go to ./nnUNet_results/Dataset100_Heart/inference_instructions.txt fetch the best inference commands (better)
 # or you can just simply use below two commands
