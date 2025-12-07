@@ -51,4 +51,4 @@ nnUNetv2_apply_postprocessing -i ./nnUNet_raw/Dataset100_Heart/predict_ensemble 
 
 # then use
 python rename_data.py
-zip -r ./predict.zip ./nnUNet_raw/Dataset100_Heart/predict_pp
+zip -j ./predict.zip ./nnUNet_raw/Dataset100_Heart/predict_pp/*.nii.gz
