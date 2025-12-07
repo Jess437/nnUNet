@@ -5,8 +5,12 @@
 ### 環境與安裝
 - Python 版本：3.10 以上  
 - 建議作業系統：Linux（例如 Ubuntu）+ NVIDIA GPU（需安裝對應 CUDA/CuDNN）  
+- 建議 PyTorch 版本：`torch==2.8.0`（`2.9.0` 在 3D 卷積搭配 AMP 時會有明顯效能退步、訓練速度變慢，建議避免使用 `2.9.0`）  
 - 安裝專案依賴（建立好虛擬環境後）：
   ```bash
+  # 先安裝建議版本的 PyTorch
+  pip install "torch==2.8.0"
+  # 再安裝本專案
   pip install -e .
   ```
   如需更詳細的安裝說明，可參考下方的官方「Installation instructions」。
