@@ -1,3 +1,53 @@
+# AICUP 2025 心臟肌肉影像分割說明
+
+本倉庫基於官方 nnU-Net v2 實作，用於 AICUP 2025 心臟肌肉影像分割競賽（Dataset100_Heart）。下列說明集中在本比賽如何安裝環境、放置資料與執行整體流程；其餘 nnU-Net 的完整文件請參考原始說明。
+
+### 環境與安裝
+- Python 版本：3.10 以上  
+- 建議作業系統：Linux（例如 Ubuntu）+ NVIDIA GPU（需安裝對應 CUDA/CuDNN）  
+- 安裝專案依賴（建立好虛擬環境後）：
+  ```bash
+  pip install -e .
+  ```
+  如需更詳細的安裝說明，可參考下方的官方「Installation instructions」。
+
+### 資料放置方式（Dataset100_Heart）
+- 將比賽提供的影像與標註資料依照 nnU-Net 規範放置於：
+  - 訓練影像：`nnUNet_raw/Dataset100_Heart/imagesTr`
+  - 訓練標註：`nnUNet_raw/Dataset100_Heart/labelsTr`
+  - 測試影像：`nnUNet_raw/Dataset100_Heart/imagesTs`
+- 由於原始檔名與 nnU-Net 命名規則不同，需先執行：
+  ```bash
+  python rename_data.py
+  ```
+
+### 訓練與推論流程
+1. 一鍵執行完整流程  
+   在專案根目錄執行：
+   ```bash
+   bash ensemble_pipeline.sh
+   ```
+   該腳本會：
+   - 若尚未前處理，呼叫  
+     `nnUNetv2_plan_and_preprocess -d 100 --verify_dataset_integrity`
+   - 以 3D full-resolution (`3d_fullres`) 配置進行五摺交叉驗證訓練（fold 0–4）
+   - 執行完整驗證、找出最佳配置與後處理策略
+   - 對測試集進行推論、集成與後處理  
+   （如需更換 GPU，可在 `ensemble_pipeline.sh` 開頭調整 `CUDA_VISIBLE_DEVICES`。）
+
+2. 最終預測與壓縮  
+   - `ensemble_pipeline.sh` 結束時，會自動執行：
+     ```bash
+     python rename_data.py
+     zip -j ./predict.zip ./nnUNet_raw/Dataset100_Heart/predict_pp/*.nii.gz
+     ```
+   - 因此，完成後你應該可以在：
+     - `nnUNet_raw/Dataset100_Heart/predict_pp` 找到最終後處理結果（`.nii.gz`）
+     - 專案根目錄找到可直接上傳的壓縮檔：`predict.zip`  
+   - 若你沒有使用 `ensemble_pipeline.sh`、而是手動跑完推論與後處理，可自行執行上述兩行指令來產生主辦方格式的結果與壓縮檔。
+
+---
+
 # Welcome to the new nnU-Net!
 
 Click [here](https://github.com/MIC-DKFZ/nnUNet/tree/nnunetv1) if you were looking for the old one instead.
